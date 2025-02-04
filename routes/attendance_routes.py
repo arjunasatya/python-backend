@@ -7,7 +7,8 @@ import pdfkit
 import os
 # import db, dsb. jika diperlukan
 
-path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+# Path default wkhtmltopdf di Linux
+path_wkhtmltopdf = '/usr/bin/wkhtmltopdf'
 config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
 
 attendance_bp = Blueprint('attendance_bp', __name__)
