@@ -10,9 +10,9 @@ model = tf.keras.models.load_model(MODEL_PATH)
 # label_map menyesuaikan class_indices dari training
 label_map = {
     0: "aldi",
-    1: "juna",
-    2: "rudi",
-    3: "devan"
+    1: "devan",
+    2: "juna",
+    3: "rudi",
 }
 
 IMG_SIZE = (128, 128)
