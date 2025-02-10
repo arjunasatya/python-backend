@@ -24,22 +24,31 @@ def check_location():
 
 @attendance_bp.route('/absensi/facerec', methods=['POST'])
 def facerec():
+    """
+    Menerima frame gambar melalui live camera, mendeteksi wajah menggunakan MTCNN
+    dan model CNN, lalu mengembalikan bounding box dan label.
+    """
     try:
-        username = request.form.get('username')
+        # Menerima file gambar dari request
         face_file = request.files.get('face_image')
         if not face_file:
-            return jsonify({"message": "No file"}), 400
+            return jsonify({"message": "No file provided"}), 400
 
+        # Proses gambar untuk deteksi wajah dan pengenalan
         result = detect_and_recognize_faces(face_file.read())
-        predicted_label = result['label']
+        predicted_label = result.get('label', 'unknown')
+        bounding_box = result.get('box', None)
 
-        # Tergantung logic, recognized = predicted_label == username
-        recognized = (predicted_label == username)
+        # Jika diperlukan, bandingkan dengan username (jika dikirim sebagai field)
+        username = request.form.get('username')
+        recognized = (predicted_label == username) if username else True
 
         return jsonify({
             "recognized": recognized,
-            "label": predicted_label
+            "label": predicted_label,
+            "box": bounding_box
         }), 200
+
     except Exception as e:
         return jsonify({"message": str(e)}), 500
 
